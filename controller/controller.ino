@@ -24,6 +24,7 @@
 
 // constants won't change. They're used here to set pin numbers:
 const int buttonPin = 3;  // the number of the pushbutton pin
+const int ledPin = 4;
 
 // variables will change:
 int buttonState = 0;  // variable for reading the pushbutton status
@@ -31,6 +32,8 @@ int buttonState = 0;  // variable for reading the pushbutton status
 void setup() {
   // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+
   Serial.begin(9600);
 }
 
@@ -42,8 +45,12 @@ void loop() {
   if (buttonState == HIGH) {
     // turn LED on:
     Serial.println("Button 1 pressed");
+    digitalWrite(ledPin, HIGH);
     delay(1000);
+
+    // delay(1000);
   } else {
     // turn LED off:
+    digitalWrite(ledPin, LOW);
   }
 }

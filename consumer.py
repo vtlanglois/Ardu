@@ -1,24 +1,21 @@
 import serial
-import webbrowser
+import webbrowser as wb
+import pyautogui
 
 
-print("start!")
+print("Begin reading serial input")
 
-ser = serial.Serial("COM11", 9600) # change "COM3" to the correct port for your setup
-
-
-print("start!2")
-
+# ser = serial.Serial("COM11", 9600) # change "COM3" to the correct port for your setup
+/
 while True:
-    print("start!23")
-    message = ser.readline().decode().strip()
-    print(message)
-    print("j!")
-    if message == "Button 1 pressed":
-        # perform action for button 1
-        webbrowser.open("https://www.wikipedia.com")
-        print("3!!!")
-
-    if message == "Button 2 pressed":
-        # perform action for button 1
-        print("2!!!")
+    message = "Button 2 pressed" #ser.readline().decode().strip()/
+    match message:
+        case "Button 1 pressed":
+            wb.open("https://www.youtube.com", new = 0);
+        case "Button 2 pressed":
+            wb.open("https://www.youtube.com/feed/subscriptions");
+        case "Button 3 pressed":
+             wb.open("https://www.youtube.com/feed/trending");
+        case "Button 4 pressed":
+             wb.open("https://www.youtube.com/shorts");
+    break;
