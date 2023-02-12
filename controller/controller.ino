@@ -36,11 +36,11 @@ void enablePinModes(Button btn) {
   pinMode(btn.ledPin, OUTPUT);
 }
 
-void handleButtonPress(Button btn, char* successMsg) {
+void handleButtonPress(Button btn, char* msg) {
   //if the state of the pushbutton is HIGH, send message to Python script thru Serial
   if(btn.state == HIGH) {
     digitalWrite(btn.ledPin, HIGH);
-    Serial.println(successMsg);
+    Serial.println(msg);
     delay(1000);
   } else {
     digitalWrite(btn.ledPin, LOW);
