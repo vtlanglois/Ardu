@@ -3,11 +3,15 @@
 
   Handles button inputs and two outputs:
     -lighting their LEDs
-    -sending messages to a Python script
+    -sending keystrokes to connected device
+  In this script, the Arduino cares about checking for button states, lighting LEDS,
+  and sending keystrokes to the computer.
 
-  In this script, the only thing the Arduino cares about is checking for button states,
-  lighting LEDs, and sending messages to the computer.
+  This script was designed with Chrome and Windows in mind. 
 */
+
+#include <Keyboard.h>
+
 struct Button {
   const int buttonPin; //the input pin
   const int ledPin; //the output pin
@@ -20,14 +24,17 @@ Button btn3 = {7,8,0};
 Button btn4 = {9,10,0};
 Button ctrl = {11,12,0};
 
+
 void setup() {
-  //set up all necessary inputs and outputs
+  // read the state of the pushbutton value:
   enablePinModes(btn1);
   enablePinModes(btn2);
   enablePinModes(btn3);
   enablePinModes(btn4);
   enablePinModes(ctrl);
-  // open serial communication with Python script
+  //enable keyboard
+  Keyboard.begin();
+  // open serial communication 
   Serial.begin(9600);
 }
 
@@ -36,11 +43,15 @@ void enablePinModes(Button btn) {
   pinMode(btn.ledPin, OUTPUT);
 }
 
-void response(Button btn, char* successMsg) {
-  //if the state of the pushbutton is HIGH, send message to Python script thru Serial
+void response(Button btn, char* cmd) {
+  //if the state of the pushbutton is HIGH, send keystroke command to connected keyboard
   if(btn.state == HIGH) {
     digitalWrite(btn.ledPin, HIGH);
-    Serial.println(successMsg);
+    //for Chrome only
+    Keyboard.press(KEY_LEFT_CTRL);
+    Keyboard.press("l");
+    Keyboard.releaseAll();
+    Keyboard.println(cmd);
     delay(1000);
   } else {
     digitalWrite(btn.ledPin, LOW);
@@ -55,9 +66,11 @@ void loop() {
   btn4.state = digitalRead(btn4.buttonPin);
   ctrl.state = digitalRead(ctrl.buttonPin);
   //check the state of the pushbutton value
-  response(btn1, "button_1_pressed");
-  response(btn2, "button_2_pressed");
-  response(btn3, "button_3_pressed");
-  response(btn4, "button_4_pressed");
-  response(ctrl, "ctrl_pressed");
+  response(btn1, "https://www.youtube.com");
+  response(btn2, "https://www.youtube.com/feed/subscriptions");
+  response(btn3, "https://www.youtube.com/feed/trending");
+  response(btn4, "https://www.youtube.com/shorts");
+  //response(ctrl, "ctrl_pressed"); -> if this will act like a ctrl button, this function will not work for it.
+
+
 }
