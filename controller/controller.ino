@@ -36,7 +36,7 @@ void enablePinModes(Button btn) {
   pinMode(btn.ledPin, OUTPUT);
 }
 
-void response(Button btn, char* successMsg) {
+void handleButtonPress(Button btn, char* successMsg) {
   //if the state of the pushbutton is HIGH, send message to Python script thru Serial
   if(btn.state == HIGH) {
     digitalWrite(btn.ledPin, HIGH);
@@ -55,9 +55,9 @@ void loop() {
   btn4.state = digitalRead(btn4.buttonPin);
   ctrl.state = digitalRead(ctrl.buttonPin);
   //check the state of the pushbutton value
-  response(btn1, "button_1_pressed");
-  response(btn2, "button_2_pressed");
-  response(btn3, "button_3_pressed");
-  response(btn4, "button_4_pressed");
-  response(ctrl, "ctrl_pressed");
+  handleButtonPress(btn1, "button_1_pressed");
+  handleButtonPress(btn2, "button_2_pressed");
+  handleButtonPress(btn3, "button_3_pressed");
+  handleButtonPress(btn4, "button_4_pressed");
+  handleButtonPress(ctrl, "ctrl_pressed");
 }

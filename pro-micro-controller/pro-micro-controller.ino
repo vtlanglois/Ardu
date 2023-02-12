@@ -43,7 +43,7 @@ void enablePinModes(Button btn) {
   pinMode(btn.ledPin, OUTPUT);
 }
 
-void response(Button btn, char* cmd) {
+void handleButtonPress(Button btn, char* cmd) {
   //if the state of the pushbutton is HIGH, send keystroke command to connected keyboard
   if(btn.state == HIGH) {
     digitalWrite(btn.ledPin, HIGH);
@@ -66,11 +66,15 @@ void loop() {
   btn4.state = digitalRead(btn4.buttonPin);
   ctrl.state = digitalRead(ctrl.buttonPin);
   //check the state of the pushbutton value
-  response(btn1, "https://www.youtube.com");
-  response(btn2, "https://www.youtube.com/feed/subscriptions");
-  response(btn3, "https://www.youtube.com/feed/trending");
-  response(btn4, "https://www.youtube.com/shorts");
-  //response(ctrl, "ctrl_pressed"); -> if this will act like a ctrl button, this function will not work for it.
+  handleButtonPress(btn1, "https://www.youtube.com");
+  handleButtonPress(btn2, "https://www.youtube.com/feed/subscriptions");
+  handleButtonPress(btn3, "https://www.youtube.com/feed/trending");
+  handleButtonPress(btn4, "https://www.youtube.com/shorts");
+  /**
+    @TODO: figure out Ctrl's purpose
+    @DESC: if we want Ctrl to serve as a Ctrl button, calling the function on ctrl will not work.
+  */
+  response(ctrl, "https://www.youtube.com/shorts"); 
 
 
 }
