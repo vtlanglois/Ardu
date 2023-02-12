@@ -74,7 +74,7 @@ void loop() {
     @TODO: figure out Ctrl's purpose
     @DESC: if we want Ctrl to serve as a Ctrl button, calling the function on ctrl will not work.
   */
-  response(ctrl, "https://www.youtube.com/shorts"); 
+  handleButtonPress(ctrl, "https://www.youtube.com/shorts"); 
 
 
 }
