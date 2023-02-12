@@ -1,56 +1,60 @@
 /*
-  Button
+  Created for IU Bloomingtons Spring 2023's Prototyping with Arduino class
 
-  Turns on and off a light emitting diode(LED) connected to digital pin 13,
-  when pressing a pushbutton attached to pin 2.
-
-  The circuit:
-  - LED attached from pin 13 to ground through 220 ohm resistor
-  - pushbutton attached to pin 2 from +5V
-  - 10K resistor attached to pin 2 from ground
-
-  - Note: on most Arduinos there is already an LED on the board
-    attached to pin 13.
-
-  created 2005
-  by DojoDave <http://www.0j0.org>
-  modified 30 Aug 2011
-  by Tom Igoe
-
-  This example code is in the public domain.
-
-  https://www.arduino.cc/en/Tutorial/BuiltInExamples/Button
+  Handles button inputs and two outputs:
+    -lighting their LEDs
+    -sending messages to a Python script
 */
+struct Button {
+  const int buttonPin; //the input pin
+  const int ledPin; //the output pin
+  int state; //if the pin is pressed or not
+};
 
-// constants won't change. They're used here to set pin numbers:
-const int buttonPin = 3;  // the number of the pushbutton pin
-const int ledPin = 4;
-
-// variables will change:
-int buttonState = 0;  // variable for reading the pushbutton status
+Button btn1 = {3,4,0};
+Button btn2 = {5,6,0};
+Button btn3 = {7,8,0};
+Button btn4 = {9,10,0};
+Button ctrl = {11,12,0};
 
 void setup() {
-  // initialize the pushbutton pin as an input:
-  pinMode(buttonPin, INPUT);
-  pinMode(ledPin, OUTPUT);
-
+  //set up all necessary inputs and outputs
+  enablePinModes(btn1);
+  enablePinModes(btn2);
+  enablePinModes(btn3);
+  enablePinModes(btn4);
+  enablePinModes(ctrl);
+  // open serial communication with Python script
   Serial.begin(9600);
+}
+
+void enablePinModes(Button btn) {
+  pinMode(btn.buttonPin, INPUT);
+  pinMode(btn.ledPin, OUTPUT);
+}
+
+void response(Button btn, char* successMsg) {
+  //if the state of the pushbutton is HIGH, send message to Python script thru Serial
+  if(btn.state == HIGH) {
+    digitalWrite(btn.ledPin, HIGH);
+    Serial.println(successMsg);
+    delay(1000);
+  } else {
+    digitalWrite(btn.ledPin, LOW);
+  }
 }
 
 void loop() {
   // read the state of the pushbutton value:
-  buttonState = digitalRead(buttonPin);
-
-  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
-  if (buttonState == HIGH) {
-    // turn LED on:
-    Serial.println("Button 1 pressed");
-    digitalWrite(ledPin, HIGH);
-    delay(1000);
-
-    // delay(1000);
-  } else {
-    // turn LED off:
-    digitalWrite(ledPin, LOW);
-  }
+  btn1.state = digitalRead(btn1.buttonPin);
+  btn2.state = digitalRead(btn2.buttonPin);
+  btn3.state = digitalRead(btn3.buttonPin);
+  btn4.state = digitalRead(btn4.buttonPin);
+  ctrl.state = digitalRead(ctrl.buttonPin);
+  //check the state of the pushbutton value
+  response(btn1, "button_1_pressed");
+  response(btn2, "button_2_pressed");
+  response(btn3, "button_3_pressed");
+  response(btn4, "button_4_pressed");
+  response(ctrl, "ctrl_pressed");
 }
