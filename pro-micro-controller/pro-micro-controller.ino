@@ -13,14 +13,17 @@ struct Button {
   const int buttonPin; //the input pin
   const int ledPin; //the output pin
   int state; //if the pin is pressed or not
+  char* url;
+  char keystrokes[];
 };
 
-Button btn1 = {3,4,0};
-Button btn2 = {5,6,0};
-Button btn3 = {7,8,0};
-Button btn4 = {9,10,0};
-Button ctrl = {11,12,0};
+Button btn1 = {3,4,0, "", {'l'}};
+Button btn2 = {5,6,0, "", {'l'}};
+Button btn3 = {7,8,0, "", {'l'}};
+Button btn4 = {9,10,0, "", {'l'}};
+Button ctrl = {11,12,0, "", {'l'}};
 
+bool isCtrl = false;
 
 void setup() {
   // read the state of the pushbutton value:
@@ -77,15 +80,26 @@ void loop() {
   btn4.state = digitalRead(btn4.buttonPin);
   ctrl.state = digitalRead(ctrl.buttonPin);
   //check the state of the pushbutton value
-  handleURLRequest(btn1, "https://www.youtube.com");
-  handleURLRequest(btn2, "https://www.youtube.com/feed/subscriptions");
-  handleURLRequest(btn3, "https://www.youtube.com/feed/trending");
-  handleKeystrokeRequest(btn4, "https://www.youtube.com/shorts");
+  if(!isCtrl) {
+    handleURLRequest(btn1, btn1.url);
+    handleURLRequest(btn2, btn2.url);
+    handleURLRequest(btn3, btn3.url);
+    handleURLRequest(btn4, btn4.url);
+  } else {
+    handleKeystrokeRequest(btn1, btn1.keystrokes);
+    handleKeystrokeRequest(btn2, btn2.keystrokes);
+    handleKeystrokeRequest(btn3, btn3.keystrokes);
+    handleKeystrokeRequest(btn4, btn4.keystrokes);
+  }
+
   /**
     @TODO: figure out Ctrl's purpose
     @DESC: if we want Ctrl to serve as a Ctrl button, calling the function on ctrl will not work.
   */
-  handleURLRequest(ctrl, "https://www.youtube.com/shorts"); 
+  if(ctrl.state == HIGH) {
+      isCtrl = !isCtrl;
+      digitalWrite(ctrl.ledPin, isCtrl);
+  }
 
 
 }
