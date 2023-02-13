@@ -1,12 +1,9 @@
-/*
   Created for IU Bloomingtons Spring 2023's Prototyping with Arduino class
-
   Handles button inputs and two outputs:
     -lighting their LEDs
     -sending keystrokes to connected device
   In this script, the Arduino cares about checking for button states, lighting LEDS,
   and sending keystrokes to the computer.
-
   This script was designed with Chrome and Windows in mind. 
 */
 
