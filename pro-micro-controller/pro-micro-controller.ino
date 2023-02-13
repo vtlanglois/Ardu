@@ -1,4 +1,4 @@
-  Created for IU Bloomingtons Spring 2023's Prototyping with Arduino class
+ /* Created for IU Bloomingtons Spring 2023's Prototyping with Arduino class
   Handles button inputs and two outputs:
     -lighting their LEDs
     -sending keystrokes to connected device
@@ -40,15 +40,29 @@ void enablePinModes(Button btn) {
   pinMode(btn.ledPin, OUTPUT);
 }
 
-void handleButtonPress(Button btn, char* cmd) {
+void handleURLRequest(Button btn, char* cmd) {
   //if the state of the pushbutton is HIGH, send keystroke command to connected keyboard
   if(btn.state == HIGH) {
     digitalWrite(btn.ledPin, HIGH);
     //for Chrome only
     Keyboard.press(KEY_LEFT_CTRL);
-    Keyboard.press("l");
+    Keyboard.press('l');
     Keyboard.releaseAll();
     Keyboard.println(cmd);
+    delay(1000);
+  } else {
+    digitalWrite(btn.ledPin, LOW);
+  }
+}
+
+void handleKeystrokeRequest(Button btn, char cmds[]) {
+    //if the state of the pushbutton is HIGH, send keystroke command to connected keyboard
+  if(btn.state == HIGH) {
+    digitalWrite(btn.ledPin, HIGH);
+    //for Chrome only
+    Keyboard.press(KEY_LEFT_SHIFT);
+    Keyboard.press('n');
+    Keyboard.releaseAll();
     delay(1000);
   } else {
     digitalWrite(btn.ledPin, LOW);
@@ -63,15 +77,15 @@ void loop() {
   btn4.state = digitalRead(btn4.buttonPin);
   ctrl.state = digitalRead(ctrl.buttonPin);
   //check the state of the pushbutton value
-  handleButtonPress(btn1, "https://www.youtube.com");
-  handleButtonPress(btn2, "https://www.youtube.com/feed/subscriptions");
-  handleButtonPress(btn3, "https://www.youtube.com/feed/trending");
-  handleButtonPress(btn4, "https://www.youtube.com/shorts");
+  handleURLRequest(btn1, "https://www.youtube.com");
+  handleURLRequest(btn2, "https://www.youtube.com/feed/subscriptions");
+  handleURLRequest(btn3, "https://www.youtube.com/feed/trending");
+  handleKeystrokeRequest(btn4, "https://www.youtube.com/shorts");
   /**
     @TODO: figure out Ctrl's purpose
     @DESC: if we want Ctrl to serve as a Ctrl button, calling the function on ctrl will not work.
   */
-  handleButtonPress(ctrl, "https://www.youtube.com/shorts"); 
+  handleURLRequest(ctrl, "https://www.youtube.com/shorts"); 
 
 
 }
