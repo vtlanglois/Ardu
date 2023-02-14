@@ -1,5 +1,11 @@
+
+
+
+
+
  /* Created for IU Bloomingtons Spring 2023's Prototyping with Arduino class
   Handles button inputs and two outputs:
+
     -lighting their LEDs
     -sending keystrokes to connected device
   In this script, the Arduino cares about checking for button states, lighting LEDS,
@@ -9,19 +15,26 @@
 
 #include <Keyboard.h>
 
+
 struct Button {
   const int buttonPin; //the input pin
   const int ledPin; //the output pin
   int state; //if the pin is pressed or not
-  char* url;
-  char keystrokes[];
+  char* url; //the URL of video/playlist to play
+  /**
+  @TODO: figure out if I can really use an array to store all the key presses. Would the macros be why it doesn't work?
+  */
+  char key; //the hotkey value
+  bool usesShift; //does the key need shift to work?
 };
 
-Button btn1 = {3,4,0, "", {'l'}};
-Button btn2 = {5,6,0, "", {'l'}};
-Button btn3 = {7,8,0, "", {'l'}};
-Button btn4 = {9,10,0, "", {'l'}};
-Button ctrl = {11,12,0, "", {'l'}};
+
+
+Button btn1 = {3,4,0, "https://www.youtube.com/watch?v=YO0A8SSor1k&list=PL_Dj2ayYHVRyLb7SLlxafH6_jgazJ6dgL", 'k', false}; 
+Button btn2 = {5,6,0, "https://www.youtube.com/watch?v=CRjVN_FtOpk&list=PLWdM4kr9O7dNVXRui9UghSMHFdZGlnCwH", 'c', false};
+Button btn3 = {7,8,0, "https://www.youtube.com/watch?v=Kr9zgvjRbjY&list=PLa8HWWMcQEGRdrmSKzOxpCUaZoPfg1IgT", 'n', true};
+Button btn4 = {9,10,0, "https://www.youtube.com/watch?v=aj60xWBHJxw&list=PLT1rvk7Trkw621AGHhz4WQC2thuUawRek", 'p', true};
+Button ctrl = {8,12,0, "", 'c', false}; //switches between "URL" and "Shortcuts" state
 
 bool isCtrl = false;
 
@@ -43,7 +56,7 @@ void enablePinModes(Button btn) {
   pinMode(btn.ledPin, OUTPUT);
 }
 
-void handleURLRequest(Button btn, char* cmd) {
+void handleURLRequest(Button btn) {
   //if the state of the pushbutton is HIGH, send keystroke command to connected keyboard
   if(btn.state == HIGH) {
     digitalWrite(btn.ledPin, HIGH);
@@ -51,25 +64,35 @@ void handleURLRequest(Button btn, char* cmd) {
     Keyboard.press(KEY_LEFT_CTRL);
     Keyboard.press('l');
     Keyboard.releaseAll();
-    Keyboard.println(cmd);
+    Keyboard.println(btn.url);
+  
     delay(1000);
   } else {
+
+  
     digitalWrite(btn.ledPin, LOW);
   }
 }
 
-void handleKeystrokeRequest(Button btn, char cmds[]) {
+void handleKeystrokeRequest(Button btn) {
     //if the state of the pushbutton is HIGH, send keystroke command to connected keyboard
   if(btn.state == HIGH) {
     digitalWrite(btn.ledPin, HIGH);
-    //for Chrome only
-    Keyboard.press(KEY_LEFT_SHIFT);
-    Keyboard.press('n');
+    Serial.println("ctrl button function!");
+    //loop wasn't work, hope this works!
+    if(btn.usesShift) {
+      Keyboard.press(KEY_LEFT_SHIFT);
+    } 
+    Keyboard.press(btn.key);
     Keyboard.releaseAll();
+
     delay(1000);
+
   } else {
     digitalWrite(btn.ledPin, LOW);
   }
+
+
 }
 
 void loop() {
@@ -81,25 +104,25 @@ void loop() {
   ctrl.state = digitalRead(ctrl.buttonPin);
   //check the state of the pushbutton value
   if(!isCtrl) {
-    handleURLRequest(btn1, btn1.url);
-    handleURLRequest(btn2, btn2.url);
-    handleURLRequest(btn3, btn3.url);
-    handleURLRequest(btn4, btn4.url);
+    handleURLRequest(btn1);
+    handleURLRequest(btn2);
+    handleURLRequest(btn3);
+    handleURLRequest(btn4);
   } else {
-    handleKeystrokeRequest(btn1, btn1.keystrokes);
-    handleKeystrokeRequest(btn2, btn2.keystrokes);
-    handleKeystrokeRequest(btn3, btn3.keystrokes);
-    handleKeystrokeRequest(btn4, btn4.keystrokes);
+    handleKeystrokeRequest(btn1);
+    handleKeystrokeRequest(btn2);
+    handleKeystrokeRequest(btn3);
+    handleKeystrokeRequest(btn4);
   }
 
-  /**
-    @TODO: figure out Ctrl's purpose
-    @DESC: if we want Ctrl to serve as a Ctrl button, calling the function on ctrl will not work.
-  */
-  if(ctrl.state == HIGH) {
+  if(ctrl.state == HIGH) {N
       isCtrl = !isCtrl;
       digitalWrite(ctrl.ledPin, isCtrl);
+      Serial.println("ctrl!");
+      Serial.println(isCtrl);
+      delay(1000);
   }
 
 
 }
+
