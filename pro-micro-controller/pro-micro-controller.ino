@@ -30,11 +30,11 @@ struct Button {
 
 
 
-Button btn1 = {3,4,0, "https://www.youtube.com/watch?v=YO0A8SSor1k&list=PL_Dj2ayYHVRyLb7SLlxafH6_jgazJ6dgL", 'k', false}; 
-Button btn2 = {5,6,0, "https://www.youtube.com/watch?v=CRjVN_FtOpk&list=PLWdM4kr9O7dNVXRui9UghSMHFdZGlnCwH", 'c', false};
-Button btn3 = {7,8,0, "https://www.youtube.com/watch?v=Kr9zgvjRbjY&list=PLa8HWWMcQEGRdrmSKzOxpCUaZoPfg1IgT", 'n', true};
-Button btn4 = {9,10,0, "https://www.youtube.com/watch?v=aj60xWBHJxw&list=PLT1rvk7Trkw621AGHhz4WQC2thuUawRek", 'p', true};
-Button ctrl = {8,12,0, "", 'c', false}; //switches between "URL" and "Shortcuts" state
+Button btn1 = {6,16,0, "https://www.youtube.com/watch?v=YO0A8SSor1k&list=PL_Dj2ayYHVRyLb7SLlxafH6_jgazJ6dgL", 'k', false}; 
+Button btn2 = {7,16,0, "https://www.youtube.com/watch?v=CRjVN_FtOpk&list=PLWdM4kr9O7dNVXRui9UghSMHFdZGlnCwH", 'c', false};
+Button btn3 = {8,16,0, "https://www.youtube.com/watch?v=Kr9zgvjRbjY&list=PLa8HWWMcQEGRdrmSKzOxpCUaZoPfg1IgT", 'n', true};
+Button btn4 = {9,16,0, "https://www.youtube.com/watch?v=aj60xWBHJxw&list=PLT1rvk7Trkw621AGHhz4WQC2thuUawRek", 'p', true};
+Button ctrl = {3,16,0, "", 'c', false}; //switches between "URL" and "Shortcuts" state
 
 bool isCtrl = false;
 
@@ -53,31 +53,36 @@ void setup() {
 
 void enablePinModes(Button btn) {
   pinMode(btn.buttonPin, INPUT);
-  pinMode(btn.ledPin, OUTPUT);
+  // pinMode(btn.ledPin, OUTPUT);
 }
 
 void handleURLRequest(Button btn) {
   //if the state of the pushbutton is HIGH, send keystroke command to connected keyboard
-  if(btn.state == HIGH) {
-    digitalWrite(btn.ledPin, HIGH);
+  if(btn.state == LOW) {
+    Serial.print("SOMETHING!!");
+    Serial.print(btn.buttonPin);
+    // digitalWrite(btn.ledPin, HIGH);
     //for Chrome only
     Keyboard.press(KEY_LEFT_CTRL);
     Keyboard.press('l');
     Keyboard.releaseAll();
     Keyboard.println(btn.url);
+    Serial.print("END\n");
   
     delay(1000);
   } else {
-
-  
-    digitalWrite(btn.ledPin, LOW);
+    Serial.print("NOTHING!");
+    Serial.print(btn.buttonPin);
+    Serial.print("NEND\n");
+    delay(500);
+    // digitalWrite(btn.ledPin, LOW);
   }
 }
 
 void handleKeystrokeRequest(Button btn) {
     //if the state of the pushbutton is HIGH, send keystroke command to connected keyboard
-  if(btn.state == HIGH) {
-    digitalWrite(btn.ledPin, HIGH);
+  if(btn.state == LOW) {
+    // digitalWrite(btn.ledPin, HIGH);
     Serial.println("ctrl button function!");
     //loop wasn't work, hope this works!
     if(btn.usesShift) {
@@ -89,7 +94,7 @@ void handleKeystrokeRequest(Button btn) {
     delay(1000);
 
   } else {
-    digitalWrite(btn.ledPin, LOW);
+    // digitalWrite(btn.ledPin, LOW);
   }
 
 
@@ -103,7 +108,7 @@ void loop() {
   btn4.state = digitalRead(btn4.buttonPin);
   ctrl.state = digitalRead(ctrl.buttonPin);
   //check the state of the pushbutton value
-  if(!isCtrl) {
+  if(isCtrl == false) {
     handleURLRequest(btn1);
     handleURLRequest(btn2);
     handleURLRequest(btn3);
@@ -115,7 +120,7 @@ void loop() {
     handleKeystrokeRequest(btn4);
   }
 
-  if(ctrl.state == HIGH) {N
+  if(ctrl.state == HIGH) {
       isCtrl = !isCtrl;
       digitalWrite(ctrl.ledPin, isCtrl);
       Serial.println("ctrl!");
