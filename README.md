@@ -2,6 +2,8 @@
 
 This repository contains the codebase for a controller made for children using Arduino. The device was created as a class project for INFO-I341, Prototyping for Arduino, offered by Indiana University during the Spring 2023 semester.
 
+![controller](https://github.com/vtlanglois/ArduinoKidController-I341/assets/15847889/aa80915f-84b8-45d0-b125-cc351e21d6d4)
+
 
 ## Description
 
@@ -9,6 +11,7 @@ The Arduino Children's Controller is a custom-made device designed specifically 
 
 ## Button Design
 
+https://github.com/vtlanglois/ArduinoKidController-I341/assets/15847889/0fbde719-6ae9-4c18-b0d2-0c98e89b84aa
 
 The buttons were inspired by morse code telegraph machines. When the user pressed down on the button section's circular LEGO piece, the cylinder piece below presses the tactile button. The hinge section forces the button section to go back up.
 
@@ -30,7 +33,7 @@ The main file in this repository is `controller.ino`. It handles user input in t
 
 ### Functionality
 
-The 'controller.ino` file provides the following functionality:
+The `controller.ino` file provides the following functionality:
 
 - A struct called `Button` is defined to store the properties of each button. The properties include the button pin, LED pin, button state (pressed or not), URL of the playlist/video, the value of the key needed for the shortcut, and a boolean to check if the shortcut requires the Shift key.
 
