@@ -2,7 +2,6 @@
 
 This repository contains the codebase for a controller made for children using Arduino. The device was created as a class project for INFO-I341, Prototyping for Arduino, offered by Indiana University during the Spring 2023 semester.
 
-![Arduino Children's Controller](controller_photo.jpg)
 
 ## Description
 
@@ -10,7 +9,6 @@ The Arduino Children's Controller is a custom-made device designed specifically 
 
 ## Button Design
 
-![Arduino Controller Button](controller_button.jpg)
 
 The buttons were inspired by morse code telegraph machines. When the user pressed down on the button section's circular LEGO piece, the cylinder piece below presses the tactile button. The hinge section forces the button section to go back up.
 
