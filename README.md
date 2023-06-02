@@ -51,7 +51,7 @@ To use this codebase and set up the Arduino Children's Controller, follow the st
 1. Clone the repository to your local machine.
 
 ```shell
-git clone https://github.com/your-username/arduino-children-controller.git
+git clone https://github.com/vtlanglois/ArduinoKidController-I341.git
 ```
 
 2. Connect your Arduino board to your computer.
