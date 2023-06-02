@@ -12,7 +12,7 @@ The Arduino Children's Controller is a custom-made device designed specifically 
 
 ![Arduino Controller Button](controller_button.jpg)
 
-The buttons were inspired by morse code telegraph machines. When the user pressed down on the button section's circular LEGO piece, the cyclinder piece below presses the tactile button. The hinge section forces the button section to go back up.
+The buttons were inspired by morse code telegraph machines. When the user pressed down on the button section's circular LEGO piece, the cylinder piece below presses the tactile button. The hinge section forces the button section to go back up.
 
 Each button has a unique top, allowing children to differentiate between them by touch alone. The distinctive design elements help children easily identify the buttons and enhance their overall experience while using the controller.
 
@@ -28,11 +28,11 @@ The controller was built with the following components:
 
 ## Main File
 
-The main file in this repository is `pro-micro-controller.ino`. It handles user input in the form of button presses and provides two different functionalities depending on whether the Ctrl button is pressed or not. The code is designed to work with Windows and Chrome.
+The main file in this repository is `controller.ino`. It handles user input in the form of button presses and provides two different functionalities depending on whether the Ctrl button is pressed or not. The code is designed to work with Windows and Chrome.
 
 ### Functionality
 
-The `pro-micro-controller.ino` file provides the following functionality:
+The 'controller.ino` file provides the following functionality:
 
 - A struct called `Button` is defined to store the properties of each button. The properties include the button pin, LED pin, button state (pressed or not), URL of the playlist/video, the value of the key needed for the shortcut, and a boolean to check if the shortcut requires the Shift key.
 
@@ -56,7 +56,7 @@ git clone https://github.com/vtlanglois/ArduinoKidController-I341.git
 
 2. Connect your Arduino board to your computer.
 
-3. Open the `pro-micro-controller.ino` file in the Arduino IDE.
+3. Open the `controller.ino` file in the Arduino IDE.
 
 4. Configure the necessary settings, such as board type and port, in the Arduino IDE.
 
